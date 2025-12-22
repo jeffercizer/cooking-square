@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://sodwixd48a0u"]
+
+[ext_resource type="Script" uid="uid://bemhfmtkwwunt" path="res://scripts/CustomerManager.cs" id="1_o5qli"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
+
+[sub_resource type="Sky" id="Sky_sugp2"]
+sky_material = SubResource("ProceduralSkyMaterial_0wfyh")
+
+[sub_resource type="Environment" id="Environment_jyhfs"]
+background_mode = 2
+sky = SubResource("Sky_sugp2")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_tbgi4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tefeu"]
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o6xl0"]
+albedo_color = Color(0.4158926, 0.37510183, 0.33103514, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tipki"]
+size = Vector3(3, 1, 1.25)
+
+[sub_resource type="Curve3D" id="Curve3D_85g3d"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.545, -0.675, 0, 0, -12.855916, 0, 0, 0.04, 0, 0, -0.365, 0, 0, -14.45, 0, 2.5609608, 0.415, 0, 0, 0.265, 0, 0, -14.465, 0, 8.025, 0.355, 0, 0, 0, 0, 0, -16.509151, 0, 9.971022, 0, 0, 0, 0, 0, 0, -16.532885, 0, 10.786834, 0, 0, 0, 0, 0, 0, -19.848, 0, 10.786687),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 7
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Window1" type="Window" parent="."]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(600, 1060)
+borderless = true
+
+[node name="Camera1" type="Camera3D" parent="Window1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2678341, 1.75, 0)
+keep_aspect = 0
+fov = 60.0
+
+[node name="Control1" type="Control" parent="Window1"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Window1/Control1"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="TimeLeftLabel1" type="Label" parent="Window1/Control1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Time Left: 99:99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="Window1/Control1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="ScoreLabel1" type="Label" parent="Window1/Control1/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Score: 9999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jyhfs")
+camera_attributes = SubResource("CameraAttributesPractical_tbgi4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9451372, 0.18365082, -0.27016294, 0, 0.8270119, 0.56218445, 0.3266736, -0.53134143, 0.7816397, 0, 0, 0)
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_tefeu")
+surface_material_override/0 = SubResource("StandardMaterial3D_o6xl0")
+
+[node name="Counter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3459326, -1.0506707)
+mesh = SubResource("BoxMesh_tipki")
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8451042, 2.444397, -10.223197)
+size = Vector3(8.465393, 4.888794, 1)
+
+[node name="Wall2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.221481, 2.444397, -10.223197)
+size = Vector3(8.114532, 4.888794, 1)
+
+[node name="CustomerManager" type="Node" parent="." node_paths=PackedStringArray("Path", "spawnMarker", "camera1")]
+script = ExtResource("1_o5qli")
+Path = NodePath("Path3D")
+spawnMarker = NodePath("customerSpawn")
+camera1 = NodePath("../Window1/Camera1")
+metadata/_custom_type_script = "uid://bemhfmtkwwunt"
+
+[node name="Path3D" type="Path3D" parent="CustomerManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
+curve = SubResource("Curve3D_85g3d")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="CustomerManager/Path3D"]
+transform = Transform3D(4.4302073e-05, 0, 0.9999984, 0, 1, 0, -0.9999984, 0, 4.4302073e-05, -19.848001, 0, 10.786686)
+progress = 28.526958
+
+[node name="customerSpawn" type="Marker3D" parent="CustomerManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
+gizmo_extents = 2.2

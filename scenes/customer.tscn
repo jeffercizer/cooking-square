@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cix4xojtcwucw"]
+
+[ext_resource type="Script" uid="uid://bfb1i2sotjmys" path="res://scripts/Customer.cs" id="1_ktfjk"]
+[ext_resource type="PackedScene" uid="uid://drthjtkq0f4j5" path="res://scenes/customer_scenes/CapsuleCustomer.tscn" id="2_xss0h"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xss0h"]
+size = Vector2(1.94, 1.33)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xss0h"]
+billboard_mode = 2
+
+[node name="Customer" type="Node3D" node_paths=PackedStringArray("textBubble")]
+script = ExtResource("1_ktfjk")
+CustomerModelScene = ExtResource("2_xss0h")
+textBubble = NodePath("TextBubble")
+metadata/_custom_type_script = "uid://bfb1i2sotjmys"
+
+[node name="SubViewport" type="SubViewport" parent="."]
+
+[node name="TextBubble" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8200452, 1.506378, 0.38035524)
+mesh = SubResource("PlaneMesh_xss0h")
+surface_material_override/0 = SubResource("StandardMaterial3D_xss0h")

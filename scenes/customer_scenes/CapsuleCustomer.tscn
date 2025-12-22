@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://drthjtkq0f4j5"]
+
+[ext_resource type="Texture2D" uid="uid://b1cskc0vpykqd" path="res://icon.svg" id="1_rjffj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wd202"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rfxh3"]
+albedo_texture = ExtResource("1_rjffj")
+uv1_scale = Vector3(1, 1.835, 1)
+uv1_offset = Vector3(0.5, -0.205, 0)
+
+[node name="CapsuleCustomer" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_wd202")
+surface_material_override/0 = SubResource("StandardMaterial3D_rfxh3")
