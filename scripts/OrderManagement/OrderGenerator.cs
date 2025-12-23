@@ -42,13 +42,15 @@ public static class OrderGenerator
 
             for (int i = 0; i < count; i++)
             {
-                //find if there are donenessOptions and pick one
-                var donenessOptions = level.AllowedDoneness.ContainsKey(food) ? level.AllowedDoneness[food] : Enum.GetValues(typeof(Doneness)).Cast<Doneness>().ToList(); 
+                //find if there are donenessOptions and pick one otherwise null
+                var donenessOptions = FoodInfo.AllowedDoneness.ContainsKey(food)
+                    ? FoodInfo.AllowedDoneness[food]
+                    : null;
                 order.foodItems.Add(new FoodItem {
                     food = food,
                     doneness = donenessOptions != null && donenessOptions.Count > 0
-                    ? Pick(donenessOptions)
-                    : null
+                        ? Pick(donenessOptions)
+                        : null,
                 });
             }
         }
@@ -212,26 +214,3 @@ public static class OrderGenerator
     ////End Food Info///////////////////////////////////////////////////////////////////
 }
 
-
-public enum Food
-{
-    //level 1
-    Steak,
-    Ketchup,
-    //level 2
-    Pancake,
-    Syrup,
-    Bacon,
-    Egg,
-} //Make sure to fill in the string info above
-
-public enum Doneness
-{
-    Raw,
-    Rare,
-    MediumRare,
-    Medium,
-    MediumWell,
-    WellDone,
-    Burnt,
-} //Make sure to fill in the string info above

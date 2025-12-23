@@ -124,7 +124,6 @@ public partial class CustomerManager : Node
 
 		Random rng = new();
 		CustomerProfile customerProfile = GameManager.levelProfile.AllowedCustomerProfiles.OrderBy(_ => rng.Next()).First();
-;
 		customer.SetupCustomerBeforeSceneTree(GameManager.levelProfile, customerProfile);
 		AddChild(customer);
 		AddCustomer(customer);

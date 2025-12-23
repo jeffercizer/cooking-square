@@ -5,15 +5,13 @@ public class LevelProfile
 {
     // Which foods can appear
     public List<Food> AvailableFoods = new();
-    public Dictionary<Food, List<Doneness>> AllowedDoneness = new();
     public Dictionary<Food, (int Min, int Max)> QuantityRanges = new();
     public Dictionary<Food, double> InclusionChances = new();
     public (int Min, int Max) TotalItemsRange = (1, 3);
     public List<CustomerProfile> AllowedCustomerProfiles = new();
 
-    public static readonly LevelProfile Level1 = new LevelProfile {
+    public static readonly LevelProfile firstlevel = new LevelProfile {
         AvailableFoods = new List<Food> { Food.Steak, Food.Ketchup },
-        AllowedDoneness = new Dictionary<Food, List<Doneness>> { { Food.Steak, new List<Doneness> { Doneness.Rare, Doneness.MediumRare, Doneness.Medium, Doneness.MediumWell, Doneness.WellDone } } }, 
         QuantityRanges = new Dictionary<Food, (int, int)> { { Food.Steak, (1, 2) }}, 
         InclusionChances = new Dictionary<Food, double> { { Food.Ketchup, 0.3 } },
         TotalItemsRange = (1, 2), // level 1 orders are 1 or 2 items
@@ -23,7 +21,6 @@ public class LevelProfile
 
     public static readonly LevelProfile scottishLevel = new LevelProfile {
         AvailableFoods = new List<Food> { Food.Steak, Food.Ketchup },
-        AllowedDoneness = new Dictionary<Food, List<Doneness>> { { Food.Steak, new List<Doneness> { Doneness.Rare, Doneness.MediumRare, Doneness.Medium, Doneness.MediumWell, Doneness.WellDone } } }, 
         QuantityRanges = new Dictionary<Food, (int, int)> { { Food.Steak, (1, 2) }}, 
         InclusionChances = new Dictionary<Food, double> { { Food.Ketchup, 0.3 } },
         TotalItemsRange = (1, 2),
