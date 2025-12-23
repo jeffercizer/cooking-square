@@ -151,13 +151,26 @@ public static class OrderGenerator
     }
 
 
-    static string ItemToSpeech(Food name, Doneness? doneness, int qty)
+    static string ItemToSpeech(Food food, Doneness? doneness, int qty)
     {
-        string baseText = $"{qty} {FoodToString(name)}";
-        if (doneness.HasValue) baseText += $" {DonenessToString(doneness.Value)}";
-        if (qty > 1) baseText += "s";
+        var speech = FoodSpeech[food];
+
+        // pick singular or plural phrase
+        string baseText = qty == 1 ? speech.Singular : speech.Plural;
+
+        // add doneness if applicable
+        if (doneness.HasValue)
+            baseText = $"{DonenessToString(doneness.Value)} {baseText}";
+
+        // prepend quantity if > 1
+        if (qty > 1)
+            baseText = $"{qty} {baseText}";
+        else
+            baseText = $"a {baseText}";
+
         return baseText;
     }
+
 
     static int GetRequiredItemCount(string template)
     {

@@ -13,6 +13,9 @@ public partial class Customer : Node3D
     public float CurrentDistance = 0f; 
     public bool orderTaken;
     public bool givingOrder;
+    private string fullText;
+    private int typedIndex = 0;
+
 
     private Node3D _modelInstance;
 
@@ -37,7 +40,8 @@ public partial class Customer : Node3D
             GD.PushWarning("Customer has no CustomerModelScene assigned.");
         }
         textBubble.Visible = false;
-        orderLabel.Text = OrderGenerator.GenerateSpeech(order, profile);
+        fullText = OrderGenerator.GenerateSpeech(order, profile);
+        orderLabel.Text = fullText;
     }
 
     public override void _Process(double delta)
@@ -52,6 +56,63 @@ public partial class Customer : Node3D
         }
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (!givingOrder || !textBubble.Visible)
+            return;
+
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
+        {
+            HandleKeyPress(keyEvent);
+        }
+    }
+
+    private void HandleKeyPress(InputEventKey keyEvent)
+    {
+        // Convert key to a char
+        string keyString = OS.GetKeycodeString(keyEvent.Keycode);
+        if (string.IsNullOrEmpty(keyString) || keyEvent.Unicode <= 0)
+            return;
+
+        char typedChar = (char)keyEvent.Unicode;
+        char expectedChar = fullText[typedIndex];
+
+        if (typedChar == expectedChar)
+        {
+            typedIndex++;
+            UpdateTextBubble();
+
+            if (typedIndex >= fullText.Length)
+            {
+                OnOrderCompleted();
+            }
+        }
+        else
+        {
+            OnWrongKey(typedChar, expectedChar);
+        }
+    }
+
+    private void OnOrderCompleted()
+    {
+        GetParent<CustomerManager>().FrontCustomerOrderTaken();
+    }
+    private void OnWrongKey(char typed, char expected)
+    {
+        GD.Print($"Typed: |{typed}| Expected: |{expected}|");
+        //visual shake or something
+    }
+
+    private void UpdateTextBubble()
+    {
+        string typed = fullText.Substring(0, typedIndex);
+        string remaining = fullText.Substring(typedIndex);
+
+        orderLabel.Text = $"[color=green]{typed}[/color]{remaining}";
+    }
+
+
+
     public void SetWorldPosition(Vector3 pos)
     {
         GlobalPosition = pos;
@@ -63,11 +124,11 @@ public partial class Customer : Node3D
         _modelInstance.LookAt(target, up);
     }
 
-
     public void OrderTaken()
     {
         GD.Print("Customer's order taken");
         orderTaken = true;
         givingOrder = false;
+        CurrentDistance = 0;
     }
 }

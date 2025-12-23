@@ -1,69 +1,75 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 [GlobalClass]
 public partial class CustomerManager : Node
 {
-	[Export] public Path3D Path;
+	[Export] public Path3D orderPath;
+	[Export] public Path3D pickupPath;
 	[Export] public Marker3D spawnMarker;
 	[Export] public float SlotSpacing = 2.0f;
-	[Export] public float CustomerSpawnTimer = 10.0f;
-	[Export] public int NumCustomersToSpawn = 5;
 	[Export] public Camera3D camera1;
-
+	public GameManager GameManager;
+	public LevelProfile levelProfile;
+	public int remainingCustomersToSpawn;
 	private float CurrentCustomerSpawnTimer;
 	private float pathLength;
+	private bool levelStarted = false;
 
-	private Curve3D _curve;
-	public List<Customer> Customers = new List<Customer>();
-	private float _lastControlDistance;
-	private float _secondLastControlDistance;
+	public List<Customer> WaitingCustomers = new List<Customer>();
+	public List<Customer> OrderedCustomers = new List<Customer>();
 	public override void _Ready()
 	{
-		_curve = Path.Curve;
-		CurrentCustomerSpawnTimer = 1;
-		pathLength = Path.Curve.GetBakedLength();
+		CurrentCustomerSpawnTimer = 9999999999999999999f;
 	}
-
-
 
 	public override void _Process(double delta)
 	{
-		UpdateQueue(delta);
-		if(NumCustomersToSpawn > 0)
+		if (levelStarted)
 		{
-			CurrentCustomerSpawnTimer -= (float)delta;
-			if(CurrentCustomerSpawnTimer <= 0)
+			UpdateQueue(delta, WaitingCustomers);
+			UpdateQueue(delta, OrderedCustomers);
+			if(remainingCustomersToSpawn > 0)
 			{
-				NumCustomersToSpawn--;
-				SpawnCustomer();
-				CurrentCustomerSpawnTimer = CustomerSpawnTimer;
+				CurrentCustomerSpawnTimer -= (float)delta;
+				if(CurrentCustomerSpawnTimer <= 0)
+				{
+					remainingCustomersToSpawn--;
+					SpawnCustomer();
+					CurrentCustomerSpawnTimer = levelProfile.CustomerSpawnTimer;
+				}
+			}
+			if(remainingCustomersToSpawn <= 0 && !OrderedCustomers.Any() && !WaitingCustomers.Any())
+			{
+				WonLevel();
 			}
 		}
 	}
 
-	private void UpdateQueue(double delta)
+	public void StartLevel(LevelProfile levelProfile)
 	{
-		if (Customers.Count == 0)
+		this.levelProfile = levelProfile;
+		remainingCustomersToSpawn = levelProfile.NumCustomersToSpawn;
+		CurrentCustomerSpawnTimer = 0f;
+		levelStarted = true;
+	}
+
+	private void UpdateQueue(double delta, List<Customer> customers)
+	{
+		Path3D path;
+		if (customers.Count == 0)
 			return;
 
 		float dt = (float)delta;
-		int pathOffset = 0;
-		for (int i = 0; i < Customers.Count; i++)
+		for (int i = 0; i < customers.Count; i++)
 		{
-			Customer c = Customers[i];
-			float desiredDist = 0;
-			if(c.orderTaken)
-			{
-				desiredDist = pathLength - (pathOffset * SlotSpacing);
-			}
-			else
-			{
-				desiredDist = pathLength - 3.4f - (pathOffset * SlotSpacing);
-				pathOffset++;
-			}
+			Customer c = customers[i];
+			path = c.orderTaken ? pickupPath : orderPath;
+			pathLength = path.Curve.GetBakedLength();
+			float desiredDist = pathLength - (i * SlotSpacing);
 
 			c.CurrentDistance = Mathf.MoveToward(
 				c.CurrentDistance,
@@ -73,7 +79,7 @@ public partial class CustomerManager : Node
 
 			if(c.CurrentDistance == desiredDist) //we are standing still
 			{
-				if(pathOffset == 1) //we are the front customer and are in position
+				if(i == 0 && !c.orderTaken) //we are the front customer and are in position
 				{
 					c.givingOrder = true;
 				}
@@ -81,12 +87,16 @@ public partial class CustomerManager : Node
 				{
 					c.givingOrder = false;
 				}
+				if(c.orderTaken)
+				{
+					OrderedCustomers.Remove(c); //TODO REMOVE, this is so levels will end 
+				}
 			}
 			else
 			{
 				// Sample the curve at the customer's current distance
-				Vector3 localPoint = Path.Curve.SampleBaked(c.CurrentDistance);
-				Vector3 worldPoint = Path.ToGlobal(localPoint);
+				Vector3 localPoint = path.Curve.SampleBaked(c.CurrentDistance);
+				Vector3 worldPoint = path.ToGlobal(localPoint);
 
 				// Tell the customer where to be
 				c.SetWorldPosition(worldPoint);
@@ -98,15 +108,15 @@ public partial class CustomerManager : Node
 				}
 				else
 				{         			
-					Vector3 localNow = Path.Curve.SampleBaked(c.CurrentDistance);
-					Vector3 worldNow = Path.ToGlobal(localNow);
+					Vector3 localNow = path.Curve.SampleBaked(c.CurrentDistance);
+					Vector3 worldNow = path.ToGlobal(localNow);
 
 					// Sample a point slightly ahead on the curve
 					float lookAhead = 0.1f; // tweak this for smoother turning
 					float aheadDist = c.CurrentDistance + lookAhead;
 
-					Vector3 localAhead = Path.Curve.SampleBaked(aheadDist);
-					Vector3 worldAhead = Path.ToGlobal(localAhead);
+					Vector3 localAhead = path.Curve.SampleBaked(aheadDist);
+					Vector3 worldAhead = path.ToGlobal(localAhead);
 
 					// Compute forward direction
 					Vector3 forward = (worldAhead - worldNow).Normalized();
@@ -123,28 +133,56 @@ public partial class CustomerManager : Node
 		customer.GlobalTransform = spawnMarker.GlobalTransform;
 
 		Random rng = new();
-		CustomerProfile customerProfile = GameManager.levelProfile.AllowedCustomerProfiles.OrderBy(_ => rng.Next()).First();
-		customer.SetupCustomerBeforeSceneTree(GameManager.levelProfile, customerProfile);
+		CustomerProfile customerProfile = levelProfile.AllowedCustomerProfiles.OrderBy(_ => rng.Next()).First();
+		customer.SetupCustomerBeforeSceneTree(levelProfile, customerProfile);
 		AddChild(customer);
 		AddCustomer(customer);
 	}
 
 	private void AddCustomer(Customer c)
 	{
-		Customers.Add(c);
+		WaitingCustomers.Add(c);
 	}
 
 	public void FrontCustomerOrderTaken()
 	{
-		if (Customers.Count == 0)
+		if (WaitingCustomers.Count == 0)
 			return;
 
-		Customer front = Customers[0];
+		Customer front = WaitingCustomers[0];
 		front.OrderTaken();
+		GameManager.SetScore(GameManager.GetScore() + 100);
+		OrderedCustomers.Add(front);
+		WaitingCustomers.Remove(front);
 	}
 
 	public void RemoveCustomer(Customer c)
 	{
-		Customers.Remove(c);
+		WaitingCustomers.Remove(c);
+		OrderedCustomers.Remove(c);
+	}
+
+	public void Reset()
+	{
+		foreach(Customer c in WaitingCustomers)
+		{
+			c.QueueFree();
+		}
+		foreach(Customer c in OrderedCustomers)
+		{
+			c.QueueFree();
+		}
+		WaitingCustomers = new();
+		OrderedCustomers = new();
+		levelStarted = false;
+	}
+
+	public void WonLevel()
+	{
+		GameManager.WonLevel();
+	}
+	public void LostLevel()
+	{
+		GameManager.LostLevel();
 	}
 }

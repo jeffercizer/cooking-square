@@ -60,6 +60,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_xss0h")
 layout_mode = 2
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
 text = "Hello! I would like a steak and coke please!"
 fit_content = true
 scroll_active = false

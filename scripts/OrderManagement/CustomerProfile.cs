@@ -60,11 +60,11 @@ public class CustomerProfile
 
         Fillers = new[] {
             "", 
-            "ehm… ", 
-            "lemme think… ", 
-            "hold on… ", 
-            "hmm… ", 
-            "right… "
+            "ehm... ", 
+            "lemme think... ", 
+            "hold on... ", 
+            "hmm... ", 
+            "right... "
         },
 
         Openers = new[] {
@@ -98,29 +98,29 @@ public class CustomerProfile
             "{Greeting}right then, {Opener}{ItemList}.",
             "{Greeting}could ye sort us oot wi’ {ItemList}?",
             "{Greeting}I’ll grab {ItemList}, thanks.",
-            "{Greeting}ye wouldnae believe the morning I’ve had… anyway, {Opener}{ItemList}.",
-            "{Greeting}hold on… naw, that’s it — {ItemList}.",
+            "{Greeting}ye wouldnae believe the morning I’ve had... anyway, {Opener}{ItemList}.",
+            "{Greeting}hold on... naw, that’s it - {ItemList}.",
             "{Greeting}I was thinkin’ aboot somethin’ else, but nah, {ItemList} will dae.",
             "{Greeting}I’ve been dreamin’ aboot {ItemList} since last night.",
             "{Greeting}right, before I change my mind again, {Opener}{ItemList}.",
             "{Greeting}ye ken what, {ItemList} sounds braw the day.",
-            "{Greeting}I swear I ordered this yesterday too… {ItemList}, please.",
+            "{Greeting}I swear I ordered this yesterday too... {ItemList}, please.",
             "{Greeting}I’m no’ picky, but {ItemList} is hittin’ the spot.",
             "{Greeting}dinnae judge me, but I’m goin’ for {ItemList}.",
-            "{Greeting}I’ve had a long one, pal — just gimme {ItemList}.",
-            "{Greeting}I was gonnae be healthy, but ach well… {ItemList}.",
+            "{Greeting}I’ve had a long one, pal - just gimme {ItemList}.",
+            "{Greeting}I was gonnae be healthy, but ach well... {ItemList}.",
             "{Greeting}ye ever crave somethin’ so specific it’s weird? {ItemList} for me.",
-            "{Greeting}I promised masel’ I’d cut back, but here we are… {ItemList}.",
+            "{Greeting}I promised masel’ I’d cut back, but here we are... {ItemList}.",
             "{Greeting}I’m no’ sayin’ I’m hungover, but {ItemList} might save me.",
             "{Greeting}I’ll take {ItemList}. Don’t ask why, long story.",
-            "{Greeting}ye know what, life’s too short — {ItemList}.",
+            "{Greeting}ye know what, life’s too short - {ItemList}.",
             "{Greeting}I’ve been hummin’ and hawin’ all mornin’, but {ItemList} it is.",
             "{Greeting}I’m tryin’ to treat masel’ the day, so {ItemList}.",
-            "{Greeting}I had a whole plan, but it’s gone — {ItemList} instead.",
+            "{Greeting}I had a whole plan, but it’s gone - {ItemList} instead.",
             "{Greeting}I’m no’ in the mood for thinkin’, just {ItemList}.",
             "{Greeting}I’ll hae {ItemList}. If it’s rubbish, that’s on me.",
             "{Greeting}I’m tellin’ ye, {ItemList} is the only thing keepin’ me goin’ the noo.",
-            "{Greeting}I was talkin’ tae ma pal aboot this earlier — {ItemList}.",
+            "{Greeting}I was talkin’ tae ma pal aboot this earlier - {ItemList}.",
             "{Greeting}I’ll take {ItemList}. Don’t suppose ye’ve got Irn‑Bru as well?"
         }
     };
