@@ -1,22 +1,34 @@
+using System.Collections.Generic;
 using Godot;
 
 [GlobalClass]
 public partial class Customer : Node3D
 {
-    // The visual model (MeshInstance3D, AnimatedCharacter, etc.)
     [Export] public PackedScene CustomerModelScene;
     [Export] public float Speed = 3f; 
     [Export] public MeshInstance3D textBubble;
+    [Export] public RichTextLabel orderLabel;
+    public Order order;
+    public CustomerProfile profile;
     public float CurrentDistance = 0f; 
     public bool orderTaken;
     public bool givingOrder;
 
     private Node3D _modelInstance;
 
+    public Customer (){}
+
+    public void SetupCustomerBeforeSceneTree(LevelProfile level, CustomerProfile profile)
+    {
+        order = OrderGenerator.GenerateOrder(level);
+        this.profile = profile;
+    }
+
     public override void _Ready()
     {
         if (CustomerModelScene != null)
         {
+            //TODO use customer profile to load model
             _modelInstance = CustomerModelScene.Instantiate<Node3D>();
             AddChild(_modelInstance);
         }
@@ -25,6 +37,7 @@ public partial class Customer : Node3D
             GD.PushWarning("Customer has no CustomerModelScene assigned.");
         }
         textBubble.Visible = false;
+        orderLabel.Text = OrderGenerator.GenerateSpeech(order, profile);
     }
 
     public override void _Process(double delta)

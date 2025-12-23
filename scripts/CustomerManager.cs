@@ -1,5 +1,7 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [GlobalClass]
 public partial class CustomerManager : Node
@@ -119,6 +121,11 @@ public partial class CustomerManager : Node
 		PackedScene customerScene = GD.Load<PackedScene>("res://scenes/customer.tscn");
 		Customer customer = customerScene.Instantiate<Customer>();
 		customer.GlobalTransform = spawnMarker.GlobalTransform;
+
+		Random rng = new();
+		CustomerProfile customerProfile = GameManager.levelProfile.AllowedCustomerProfiles.OrderBy(_ => rng.Next()).First();
+;
+		customer.SetupCustomerBeforeSceneTree(GameManager.levelProfile, customerProfile);
 		AddChild(customer);
 		AddCustomer(customer);
 	}
