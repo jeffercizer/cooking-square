@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://sodwixd48a0u"]
+[gd_scene load_steps=15 format=3 uid="uid://sodwixd48a0u"]
 
 [ext_resource type="Script" uid="uid://c4iloynkgpqhf" path="res://scripts/GameManager.cs" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://ri782bktmpon" path="res://scripts/OrderManagement/TicketManager.cs" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://bemhfmtkwwunt" path="res://scripts/CustomerManager.cs" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b8a0yttgbokdx" path="res://scripts/OrderingManager.cs" id="3_sugp2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
-bg_color = Color(0, 0, 0, 0.3529412)
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 
@@ -103,26 +105,33 @@ vertical_alignment = 1
 [node name="Spacer" type="Control" parent="Window1/Control1/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.83
+size_flags_stretch_ratio = 2.66
 
-[node name="MarginContainer" type="MarginContainer" parent="Window1/Control1/VBoxContainer"]
-visible = false
+[node name="TicketManager" type="MarginContainer" parent="Window1/Control1/VBoxContainer" node_paths=PackedStringArray("ticketContainer")]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
+script = ExtResource("1_jyhfs")
+ticketContainer = NodePath("ActiveTicketContainer/TicketContainer")
+metadata/_custom_type_script = "uid://ri782bktmpon"
 
-[node name="ActiveTicketContainer" type="PanelContainer" parent="Window1/Control1/VBoxContainer/MarginContainer"]
+[node name="ActiveTicketContainer" type="PanelContainer" parent="Window1/Control1/VBoxContainer/TicketManager"]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Window1/Control1/VBoxContainer/MarginContainer/ActiveTicketContainer"]
+[node name="TicketContainer" type="HBoxContainer" parent="Window1/Control1/VBoxContainer/TicketManager/ActiveTicketContainer"]
+clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
 
 [node name="Window4" type="Window" parent="."]
 oversampling_override = 1.0
-initial_position = 1
 size = Vector2i(600, 1060)
 visible = false
 unresizable = true
@@ -131,7 +140,7 @@ always_on_top = true
 unfocusable = true
 
 [node name="Camera4" type="Camera3D" parent="Window4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.049988, 1.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.939, 1.75, 0)
 keep_aspect = 0
 fov = 60.0
 
@@ -220,18 +229,31 @@ size = Vector3(8.465393, 4.888794, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.221481, 2.444397, -10.223197)
 size = Vector3(8.114532, 4.888794, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("scoreLabel", "timeLeftLabel")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("customerManager", "scoreLabel", "timeLeftLabel", "ticketManager")]
 script = ExtResource("1_0wfyh")
+customerManager = NodePath("CustomerManager")
 scoreLabel = NodePath("../Window1/Control1/VBoxContainer/TopBarPanel/TopBar/ScoreLabel1")
 timeLeftLabel = NodePath("../Window1/Control1/VBoxContainer/TopBarPanel/TopBar/TimeLeftLabel1")
+ticketManager = NodePath("../Window1/Control1/VBoxContainer/TicketManager")
 
-[node name="CustomerManager" type="Node" parent="GameManager" node_paths=PackedStringArray("orderPath", "pickupPath", "spawnMarker", "camera1")]
+[node name="CustomerManager" type="Node" parent="GameManager" node_paths=PackedStringArray("orderPath", "pickupPath", "spawnMarker", "camera1", "GameManager", "OrderingManager")]
 script = ExtResource("1_o5qli")
 orderPath = NodePath("OrderPath")
 pickupPath = NodePath("PickupPath")
 spawnMarker = NodePath("customerSpawn")
 camera1 = NodePath("../../Window1/Camera1")
+GameManager = NodePath("..")
+OrderingManager = NodePath("OrderingManager")
 metadata/_custom_type_script = "uid://bemhfmtkwwunt"
+
+[node name="customerSpawn" type="Marker3D" parent="GameManager/CustomerManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
+gizmo_extents = 2.2
+
+[node name="OrderingManager" type="Node" parent="GameManager/CustomerManager" node_paths=PackedStringArray("customerManager")]
+script = ExtResource("3_sugp2")
+customerManager = NodePath("..")
+metadata/_custom_type_script = "uid://b8a0yttgbokdx"
 
 [node name="OrderPath" type="Path3D" parent="GameManager/CustomerManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
@@ -240,10 +262,6 @@ curve = SubResource("Curve3D_85g3d")
 [node name="PathFollow3D" type="PathFollow3D" parent="GameManager/CustomerManager/OrderPath"]
 transform = Transform3D(-0.99957645, 0, 0.029079046, 0, 1, 0, -0.029079046, 0, -0.99957645, -16.532536, 0, 10.77484)
 progress = 25.192963
-
-[node name="customerSpawn" type="Marker3D" parent="GameManager/CustomerManager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
-gizmo_extents = 2.2
 
 [node name="PickupPath" type="Path3D" parent="GameManager/CustomerManager"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)

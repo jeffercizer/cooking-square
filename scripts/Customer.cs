@@ -8,6 +8,7 @@ public partial class Customer : Node3D
     [Export] public float Speed = 3f; 
     [Export] public MeshInstance3D textBubble;
     [Export] public RichTextLabel orderLabel;
+    public CustomerManager customerManager;
     public Order order;
     public CustomerProfile profile;
     public float CurrentDistance = 0f; 
@@ -19,10 +20,9 @@ public partial class Customer : Node3D
 
     private Node3D _modelInstance;
 
-    public Customer (){}
-
-    public void SetupCustomerBeforeSceneTree(LevelProfile level, CustomerProfile profile)
+    public void SetupCustomerBeforeSceneTree(CustomerManager customerManager, LevelProfile level, CustomerProfile profile)
     {
+        this.customerManager = customerManager;
         order = OrderGenerator.GenerateOrder(level);
         this.profile = profile;
     }
@@ -56,18 +56,7 @@ public partial class Customer : Node3D
         }
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (!givingOrder || !textBubble.Visible)
-            return;
-
-        if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
-        {
-            HandleKeyPress(keyEvent);
-        }
-    }
-
-    private void HandleKeyPress(InputEventKey keyEvent)
+    public void HandleKeyPress(InputEventKey keyEvent)
     {
         // Convert key to a char
         string keyString = OS.GetKeycodeString(keyEvent.Keycode);
@@ -84,7 +73,7 @@ public partial class Customer : Node3D
 
             if (typedIndex >= fullText.Length)
             {
-                OnOrderCompleted();
+                OnOrderTaken();
             }
         }
         else
@@ -93,9 +82,13 @@ public partial class Customer : Node3D
         }
     }
 
-    private void OnOrderCompleted()
+    private void OnOrderTaken()
     {
-        GetParent<CustomerManager>().FrontCustomerOrderTaken();
+        GD.Print("Customer's order taken");
+        customerManager.FrontCustomerOrderTaken();
+        orderTaken = true;
+        givingOrder = false;
+        CurrentDistance = 0;
     }
     private void OnWrongKey(char typed, char expected)
     {
@@ -122,13 +115,5 @@ public partial class Customer : Node3D
     public void CustomerLookAt(Vector3 target, Vector3 up)
     {
         _modelInstance.LookAt(target, up);
-    }
-
-    public void OrderTaken()
-    {
-        GD.Print("Customer's order taken");
-        orderTaken = true;
-        givingOrder = false;
-        CurrentDistance = 0;
     }
 }

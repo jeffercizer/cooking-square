@@ -214,7 +214,7 @@ public static class OrderGenerator
         Food.Egg => "egg",
         _ => f.ToString()
     };
-    static string DonenessToString(Doneness d) => d switch {
+    public static string DonenessToString(Doneness? d) => d switch {
         Doneness.Raw => "raw",
         Doneness.Rare => "rare",
         Doneness.MediumRare => "medium rare",
@@ -222,6 +222,7 @@ public static class OrderGenerator
         Doneness.MediumWell => "medium well",
         Doneness.WellDone => "well done",
         Doneness.Burnt => "burnt",
+        null => "",
         _ => d.ToString()
     };
     ////End Food Info///////////////////////////////////////////////////////////////////

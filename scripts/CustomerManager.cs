@@ -12,7 +12,8 @@ public partial class CustomerManager : Node
 	[Export] public Marker3D spawnMarker;
 	[Export] public float SlotSpacing = 2.0f;
 	[Export] public Camera3D camera1;
-	public GameManager GameManager;
+	[Export] public GameManager GameManager;
+	[Export] public OrderingManager OrderingManager;
 	public LevelProfile levelProfile;
 	public int remainingCustomersToSpawn;
 	private float CurrentCustomerSpawnTimer;
@@ -79,9 +80,10 @@ public partial class CustomerManager : Node
 
 			if(c.CurrentDistance == desiredDist) //we are standing still
 			{
-				if(i == 0 && !c.orderTaken) //we are the front customer and are in position
+				if(i == 0 && !c.orderTaken) //we are the front ordering customer and are in position
 				{
 					c.givingOrder = true;
+					OrderingManager.SetActiveCustomer(c);
 				}
 				else //all other customers
 				{
@@ -89,7 +91,10 @@ public partial class CustomerManager : Node
 				}
 				if(c.orderTaken)
 				{
+					//GameManager.ticketManager.RemoveOrderTicket(c.order);//remove this too
 					OrderedCustomers.Remove(c); //TODO REMOVE, this is so levels will end 
+					//normally after an order is taken we would keep them in this list until
+					//player 4 gives them their order.
 				}
 			}
 			else
@@ -134,7 +139,7 @@ public partial class CustomerManager : Node
 
 		Random rng = new();
 		CustomerProfile customerProfile = levelProfile.AllowedCustomerProfiles.OrderBy(_ => rng.Next()).First();
-		customer.SetupCustomerBeforeSceneTree(levelProfile, customerProfile);
+		customer.SetupCustomerBeforeSceneTree(this, levelProfile, customerProfile);
 		AddChild(customer);
 		AddCustomer(customer);
 	}
@@ -150,10 +155,10 @@ public partial class CustomerManager : Node
 			return;
 
 		Customer front = WaitingCustomers[0];
-		front.OrderTaken();
 		GameManager.SetScore(GameManager.GetScore() + 100);
 		OrderedCustomers.Add(front);
 		WaitingCustomers.Remove(front);
+		GameManager.ticketManager.AddOrderTicket(front.order);
 	}
 
 	public void RemoveCustomer(Customer c)

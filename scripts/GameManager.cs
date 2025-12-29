@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Godot;
 public partial class GameManager : Node
 {
-    public CustomerManager customerManager;
+    [Export] public CustomerManager customerManager;
     public LevelProfile levelProfile = Levels.firstLevel;
     public double timeLeft;
     private double preLevelScore;
@@ -12,11 +12,10 @@ public partial class GameManager : Node
     public bool levelFinished;
     [Export] public Label scoreLabel;
     [Export] public Label timeLeftLabel;
+    [Export] public TicketManager ticketManager;
 
     public override void _Ready()
     {
-        customerManager = GetNode<CustomerManager>("CustomerManager");
-        customerManager.GameManager = this;
         StartLevel();//TODO replace with main menu thing
     }
 
