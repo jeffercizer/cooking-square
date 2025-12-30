@@ -10,6 +10,7 @@ bg_color = Color(0.91457635, 0.8846802, 0.86472094, 1)
 custom_minimum_size = Vector2(160, 240)
 offset_right = 160.0
 offset_bottom = 160.0
+size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_tbgi4")
 script = ExtResource("1_7yqn5")

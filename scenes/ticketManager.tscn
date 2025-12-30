@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bke8vconf8vvi"]
+
+[ext_resource type="Script" uid="uid://ri782bktmpon" path="res://scripts/OrderManagement/TicketManager.cs" id="1_fyip3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
+bg_color = Color(0, 0, 0, 0)
+
+[node name="TicketManager" type="MarginContainer" node_paths=PackedStringArray("ticketContainer")]
+clip_contents = true
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_fyip3")
+ticketContainer = NodePath("ActiveTicketContainer/TicketContainer")
+metadata/_custom_type_script = "uid://ri782bktmpon"
+
+[node name="ActiveTicketContainer" type="PanelContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
+
+[node name="TicketContainer" type="HBoxContainer" parent="ActiveTicketContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8

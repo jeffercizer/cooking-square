@@ -12,7 +12,10 @@ public partial class GameManager : Node
     public bool levelFinished;
     [Export] public Label scoreLabel;
     [Export] public Label timeLeftLabel;
-    [Export] public TicketManager ticketManager;
+    [Export] public TicketManager ticketManager1;
+    [Export] public TicketManager ticketManager2;
+    [Export] public TicketManager ticketManager3;
+    [Export] public TicketManager ticketManager4;
 
     public override void _Ready()
     {
@@ -80,5 +83,10 @@ public partial class GameManager : Node
         }
         score = newScore;
         scoreLabel.Text = Math.Floor(score).ToString();
+    }
+
+    public void AddOrderTicket(Order order)
+    {
+        ticketManager1.AddOrderTicket(order);
     }
 }

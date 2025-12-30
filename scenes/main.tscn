@@ -1,12 +1,24 @@
-[gd_scene load_steps=15 format=3 uid="uid://sodwixd48a0u"]
+[gd_scene load_steps=19 format=3 uid="uid://sodwixd48a0u"]
 
 [ext_resource type="Script" uid="uid://c4iloynkgpqhf" path="res://scripts/GameManager.cs" id="1_0wfyh"]
-[ext_resource type="Script" uid="uid://ri782bktmpon" path="res://scripts/OrderManagement/TicketManager.cs" id="1_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bke8vconf8vvi" path="res://scenes/ticketManager.tscn" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://bemhfmtkwwunt" path="res://scripts/CustomerManager.cs" id="1_o5qli"]
+[ext_resource type="Material" uid="uid://bfslsv4njyktl" path="res://assets/textures/wall_material.tres" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://b8a0yttgbokdx" path="res://scripts/OrderingManager.cs" id="3_sugp2"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o5qli"]
-bg_color = Color(0, 0, 0, 0)
+[sub_resource type="Curve3D" id="Curve3D_85g3d"]
+_data = {
+"points": PackedVector3Array(0, 0, 0.545, 0, 0, 0, -9.699527, 0, 0, 0, 0, 0.545, -0.675, 0, 0, -15.242243, 0, 0.4186535, 0.04, 0, 0, -0.365, 0, 0, -16.874882, 0, 2.5609608, 0.415, 0, 0, 0.265, 0, 0, -16.076817, 0, 6.7271733, 0.355, 0, 0, 0, 0, 0, -16.509151, 0, 9.971022, 0, 0, 0, 0, 0, 0, -16.532885, 0, 10.786834),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
+[sub_resource type="Curve3D" id="Curve3D_o5qli"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -16.532885, 0, 10.786834, 0, 0, 0, 0, 0, 0, -5.9050503, 0, 10.786687, 0, 0, 0, 0, 0, 0, -5.9054832, 0, 7.422, 0, 0, 0, 0, 0, 0, -2.6749878, 0, 7.422, 0, 0, 0, 0, 0, 0, -2.6749878, 0, 10.787, 0, 0, 0, 0, 0, 0, 7.835495, 0, 10.782),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wfyh"]
 
@@ -26,222 +38,38 @@ size = Vector2(100, 100)
 albedo_color = Color(0.4158926, 0.37510183, 0.33103514, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tipki"]
-size = Vector3(3, 1, 1.25)
+size = Vector3(6.4, 1, 1.25)
 
-[sub_resource type="Curve3D" id="Curve3D_85g3d"]
-_data = {
-"points": PackedVector3Array(0, 0, 0.545, 0, 0, 0, 0, 0, 0, 0, 0, 0.545, -0.675, 0, 0, -12.855916, 0, 0, 0.04, 0, 0, -0.365, 0, 0, -14.45, 0, 2.5609608, 0.415, 0, 0, 0.265, 0, 0, -14.465, 0, 8.025, 0.355, 0, 0, 0, 0, 0, -16.509151, 0, 9.971022, 0, 0, 0, 0, 0, 0, -16.532885, 0, 10.786834),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
-}
-point_count = 6
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbgi4"]
+albedo_color = Color(0, 0, 1, 1)
 
-[sub_resource type="Curve3D" id="Curve3D_o5qli"]
-_data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -16.532885, 0, 10.786834, 0, 0, 0, 0, 0, 0, -21.641567, 0, 10.786687, 0, 0, 0, 0, 0, 0, -21.642, 0, 7.422, 0, 0, 0, 0, 0, 0, -24.547, 0, 7.422, 0, 0, 0, 0, 0, 0, -24.547, 0, 10.787, 0, 0, 0, 0, 0, 0, -31.506035, 0, 10.782),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
-}
-point_count = 6
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tefeu"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tipki"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85g3d"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="GenericAudio1" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2731071, 1.7095103, 0)
-panning_strength = 0.0
-
-[node name="Window1" type="Window" parent="."]
-oversampling_override = 1.0
-initial_position = 1
-size = Vector2i(600, 1060)
-unresizable = true
-borderless = true
-
-[node name="Camera1" type="Camera3D" parent="Window1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2678341, 1.75, 0)
-keep_aspect = 0
-fov = 60.0
-
-[node name="Control1" type="Control" parent="Window1"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Window1/Control1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TopBarPanel" type="PanelContainer" parent="Window1/Control1/VBoxContainer"]
-layout_mode = 2
-
-[node name="TopBar" type="HBoxContainer" parent="Window1/Control1/VBoxContainer/TopBarPanel"]
-layout_mode = 2
-alignment = 1
-
-[node name="TimeLeftLabel1" type="Label" parent="Window1/Control1/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Time Left: 99:99"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spacer" type="Control" parent="Window1/Control1/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.3
-
-[node name="ScoreLabel1" type="Label" parent="Window1/Control1/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Score: 9999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spacer" type="Control" parent="Window1/Control1/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.66
-
-[node name="TicketManager" type="MarginContainer" parent="Window1/Control1/VBoxContainer" node_paths=PackedStringArray("ticketContainer")]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_bottom = 16
-script = ExtResource("1_jyhfs")
-ticketContainer = NodePath("ActiveTicketContainer/TicketContainer")
-metadata/_custom_type_script = "uid://ri782bktmpon"
-
-[node name="ActiveTicketContainer" type="PanelContainer" parent="Window1/Control1/VBoxContainer/TicketManager"]
-clip_contents = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
-
-[node name="TicketContainer" type="HBoxContainer" parent="Window1/Control1/VBoxContainer/TicketManager/ActiveTicketContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 8
-
-[node name="Window4" type="Window" parent="."]
-oversampling_override = 1.0
-size = Vector2i(600, 1060)
-visible = false
-unresizable = true
-borderless = true
-always_on_top = true
-unfocusable = true
-
-[node name="Camera4" type="Camera3D" parent="Window4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.939, 1.75, 0)
-keep_aspect = 0
-fov = 60.0
-
-[node name="Control4" type="Control" parent="Window4"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Window4/Control4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TopBarPanel" type="PanelContainer" parent="Window4/Control4/VBoxContainer"]
-layout_mode = 2
-
-[node name="TopBar" type="HBoxContainer" parent="Window4/Control4/VBoxContainer/TopBarPanel"]
-layout_mode = 2
-alignment = 1
-
-[node name="TimeLeftLabel1" type="Label" parent="Window4/Control4/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Time Left: 99:99"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spacer" type="Control" parent="Window4/Control4/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.3
-
-[node name="ScoreLabel1" type="Label" parent="Window4/Control4/VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Score: 9999"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Spacer" type="Control" parent="Window4/Control4/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.83
-
-[node name="MarginContainer" type="MarginContainer" parent="Window4/Control4/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="ActiveTicketContainer" type="PanelContainer" parent="Window4/Control4/VBoxContainer/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_o5qli")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Window4/Control4/VBoxContainer/MarginContainer/ActiveTicketContainer"]
-layout_mode = 2
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_jyhfs")
-camera_attributes = SubResource("CameraAttributesPractical_tbgi4")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.9451372, 0.18365082, -0.27016294, 0, 0.8270119, 0.56218445, 0.3266736, -0.53134143, 0.7816397, 0, 0, 0)
-
-[node name="Floor" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_tefeu")
-surface_material_override/0 = SubResource("StandardMaterial3D_o6xl0")
-
-[node name="Counter" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3459326, -1.0506707)
-mesh = SubResource("BoxMesh_tipki")
-
-[node name="Wall" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8451042, 2.444397, -10.223197)
-size = Vector3(8.465393, 4.888794, 1)
-
-[node name="Wall2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.221481, 2.444397, -10.223197)
-size = Vector3(8.114532, 4.888794, 1)
-
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("customerManager", "scoreLabel", "timeLeftLabel", "ticketManager")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("customerManager", "scoreLabel", "timeLeftLabel", "ticketManager1", "ticketManager2", "ticketManager3", "ticketManager4")]
 script = ExtResource("1_0wfyh")
 customerManager = NodePath("CustomerManager")
-scoreLabel = NodePath("../Window1/Control1/VBoxContainer/TopBarPanel/TopBar/ScoreLabel1")
-timeLeftLabel = NodePath("../Window1/Control1/VBoxContainer/TopBarPanel/TopBar/TimeLeftLabel1")
-ticketManager = NodePath("../Window1/Control1/VBoxContainer/TicketManager")
+scoreLabel = NodePath("../Control1/VBoxContainer/TopBarPanel/TopBar/ScoreLabel1")
+timeLeftLabel = NodePath("../Control1/VBoxContainer/TopBarPanel/TopBar/TimeLeftLabel1")
+ticketManager1 = NodePath("../Control1/VBoxContainer/TicketManager1")
+ticketManager2 = NodePath("")
+ticketManager3 = NodePath("")
+ticketManager4 = NodePath("")
 
 [node name="CustomerManager" type="Node" parent="GameManager" node_paths=PackedStringArray("orderPath", "pickupPath", "spawnMarker", "camera1", "GameManager", "OrderingManager")]
 script = ExtResource("1_o5qli")
 orderPath = NodePath("OrderPath")
 pickupPath = NodePath("PickupPath")
 spawnMarker = NodePath("customerSpawn")
-camera1 = NodePath("../../Window1/Camera1")
+camera1 = NodePath("")
 GameManager = NodePath("..")
 OrderingManager = NodePath("OrderingManager")
 metadata/_custom_type_script = "uid://bemhfmtkwwunt"
@@ -256,29 +84,133 @@ customerManager = NodePath("..")
 metadata/_custom_type_script = "uid://b8a0yttgbokdx"
 
 [node name="OrderPath" type="Path3D" parent="GameManager/CustomerManager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.913158, 1, -13)
 curve = SubResource("Curve3D_85g3d")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="GameManager/CustomerManager/OrderPath"]
-transform = Transform3D(-0.99957645, 0, 0.029079046, 0, 1, 0, -0.029079046, 0, -0.99957645, -16.532536, 0, 10.77484)
+transform = Transform3D(-0.99957603, 0, 0.029079033, 0, 1, 0, -0.029079033, 0, -0.99957603, -16.532883, 0, 10.786835)
 progress = 25.192963
 
 [node name="PickupPath" type="Path3D" parent="GameManager/CustomerManager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.913158, 1, -13)
 curve = SubResource("Curve3D_o5qli")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="GameManager/CustomerManager/PickupPath"]
-transform = Transform3D(0.00071843015, 0, 0.9999991, 0, 1, 0, -0.9999991, 0, 0.00071843015, -31.506039, 0, 10.782)
+transform = Transform3D(0.0004758365, 0, -0.9999931, 0, 1, 0, 0.9999931, 0, 0.0004758365, 1.929929, 0, 10.784807)
 progress = 25.192963
 
-[node name="Counter2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.726571, 0.3459326, -1.0506707)
+[node name="Camera1" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.395051, 5.3933496, 0)
+keep_aspect = 0
+projection = 1
+size = 25.98731
+
+[node name="Control1" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBarPanel" type="PanelContainer" parent="Control1/VBoxContainer"]
+layout_mode = 2
+
+[node name="TopBar" type="HBoxContainer" parent="Control1/VBoxContainer/TopBarPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="TimeLeftLabel1" type="Label" parent="Control1/VBoxContainer/TopBarPanel/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Time Left: 99:99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="Control1/VBoxContainer/TopBarPanel/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="ScoreLabel1" type="Label" parent="Control1/VBoxContainer/TopBarPanel/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Score: 9999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TicketManager1" parent="Control1/VBoxContainer" instance=ExtResource("1_jyhfs")]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Control1/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.66
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jyhfs")
+camera_attributes = SubResource("CameraAttributesPractical_tbgi4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9451372, 0.18365082, -0.27016294, 0, 0.8270119, 0.56218445, 0.3266736, -0.53134143, 0.7816397, 0, 0, 0)
+
+[node name="GenericAudio1" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2731071, 1.7095103, 0)
+panning_strength = 0.0
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_tefeu")
+surface_material_override/0 = SubResource("StandardMaterial3D_o6xl0")
+
+[node name="Counter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6128685, 0.3459326, -1.0506707)
 mesh = SubResource("BoxMesh_tipki")
+surface_material_override/0 = SubResource("StandardMaterial3D_tbgi4")
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6073685, 10, -10.488)
+size = Vector3(8.465, 20, 1)
+material = ExtResource("2_tbgi4")
+
+[node name="Wall2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.2333636, 10, -10.223)
+size = Vector3(8.115, 20, 1)
+material = ExtResource("2_tbgi4")
+
+[node name="Counter2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.105713, 0.3459326, -1.0506707)
+mesh = SubResource("BoxMesh_tipki")
+surface_material_override/0 = SubResource("StandardMaterial3D_tefeu")
 
 [node name="Wall3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.076984, 2.444397, -10.223197)
-size = Vector3(8.465393, 4.888794, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.483364, 10, -10.223)
+size = Vector3(8.465, 20, 1)
+material = ExtResource("2_tbgi4")
 
 [node name="Wall4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.010399, 2.444397, -10.223197)
-size = Vector3(8.114532, 4.888794, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.217363, 10, -10.223)
+size = Vector3(9.165, 20, 1)
+material = ExtResource("2_tbgi4")
+
+[node name="Wall5" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8931401, 12.730469, -10.488)
+size = Vector3(2.8016553, 14.5390625, 1)
+material = ExtResource("2_tbgi4")
+
+[node name="Counter3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.07414, 0.3459326, -1.0506707)
+mesh = SubResource("BoxMesh_tipki")
+surface_material_override/0 = SubResource("StandardMaterial3D_tipki")
+
+[node name="Counter4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5656595, 0.3459326, -1.0506707)
+mesh = SubResource("BoxMesh_tipki")
+surface_material_override/0 = SubResource("StandardMaterial3D_85g3d")

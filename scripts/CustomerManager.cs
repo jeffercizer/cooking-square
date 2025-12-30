@@ -158,7 +158,7 @@ public partial class CustomerManager : Node
 		GameManager.SetScore(GameManager.GetScore() + 100);
 		OrderedCustomers.Add(front);
 		WaitingCustomers.Remove(front);
-		GameManager.ticketManager.AddOrderTicket(front.order);
+		GameManager.AddOrderTicket(front.order);
 	}
 
 	public void RemoveCustomer(Customer c)
