@@ -88,5 +88,8 @@ public partial class GameManager : Node
     public void AddOrderTicket(Order order)
     {
         ticketManager1.AddOrderTicket(order);
+        ticketManager2.AddOrderTicket(order);
+        ticketManager3.AddOrderTicket(order);
+        ticketManager4.AddOrderTicket(order);
     }
 }
